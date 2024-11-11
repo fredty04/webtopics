@@ -1,0 +1,155 @@
+:root {
+    --text: hsl(0, 0%, 100%);
+    --background: #202419;
+    --primary: #d4dbad;
+    --secondary: #4f543b;
+    --accent: #353d29;
+}
+
+* {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background);
+    color: var(--text);
+}
+
+header {
+    background: var(--primary);
+    color: var(--accent);
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+section {
+    background: white;
+    margin: 20px auto;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    transition: background-color 0.5s ease, transform 0.3s ease;
+}
+
+section:hover {
+    transform: scale(1.02);
+}
+
+section h2 {
+    color: var(--primary);
+}
+
+section p {
+    color: var(--text);
+}
+
+.legend {
+    background-color: var(--accent);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.legend h3 {
+    margin-top: 0;
+}
+
+.legend ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.legend-item {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    margin-right: 5px;
+}
+
+.gray { color: gray; }
+.blue { color: blue; }
+.red { color: red; }
+
+.tooltip-inner {
+    position: absolute;
+    background-color: var(--primary);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1000;
+}
+
+.ol-popup {
+    position: absolute;
+    bottom: 12px;
+    left: -50%;
+    background-color: white;
+}
+
+#timeline {
+    position: static;
+    color: var(--text);
+}
+
+.x-axis line {
+    stroke: var(--primary);
+}
+
+.x-axis text {
+    fill: var(--text);
+}
+
+.track {
+    stroke: var(--secondary);
+}
+
+.handle {
+    fill: var(--accent);
+    stroke: var(--primary);
+}
+
+img.align-left {
+    float: left;
+    margin-right: 10px;
+}
+
+img.align-right {
+    float: right;
+    margin-left: 10px;
+    width: 272px;
+}
+
+footer {
+    background: var(--primary);
+    color: var(--accent);
+    padding: 20px 0;
+    text-align: center;
+    position: relative;
+}
+
+footer p {
+    margin: 0;
+}

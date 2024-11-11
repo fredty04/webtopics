@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geografische Evolutie van WOII</title>
+    <meta name="description" content="Interactieve website over de geografische evolutie van de Tweede Wereldoorlog">
+    <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico">
+    <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/css/ol.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <header class="header" id="header">
+        <h1 id="title">Geografische Evolutie van WOII</h1>
+        <nav>
+            <ul>
+                <li><a href="#kaart">Interactieve Kaart</a></li>
+                <li><a href="#tijdlijn">Tijdlijn</a></li>
+                <li><a href="#loopgraaf">3D Loopgraaf</a></li>
+                <li><a href="#mes">3D Mes van Hitler</a></li>
+                <li><a href="#bunker">3D Bunker</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="kaart">
+            <h2>Interactieve WOII Kaart</h2>
+            <p>De Tweede Wereldoorlog (1939-1945) was een wereldwijd conflict waarin de As-mogendheden (Duitsland, Italië en Japan) tegenover de Geallieerden (o.a. de Verenigde Staten, het Verenigd Koninkrijk en de Sovjet-Unie) stonden. De oorlog begon toen Nazi-Duitsland, onder leiding van Adolf Hitler, Polen binnenviel. Dit leidde tot een escalatie waarbij vele landen betrokken raakten.</p>
+            <p>In Europa werden miljoenen mensen slachtoffer van het geweld, en de Holocaust, waarin zes miljoen Joden systematisch werden vermoord, was een van de gruwelijkste aspecten van de oorlog. De oorlog eindigde met de capitulatie van Duitsland in mei 1945 en van Japan in augustus 1945, na de atoombommen op Hiroshima en Nagasaki. De gevolgen waren enorm en leidden onder meer tot de oprichting van de Verenigde Naties en de opdeling van Duitsland, evenals een langdurige Koude Oorlog tussen de VS en de Sovjet-Unie.</p>
+            <p>Hieronder vind je een interactieve kaart van WOII waar de belangrijkste veldslagen op te vinden zijn. Beweeg over de punten om meer info over elke veldslag te verkrijgen, datums staan in het formaar mm/dd/yyyy</p>
+            <div id="map" class="map" style="width: 100%; height: 500px;"></div>
+            <div class="legend">
+                <h3>Legende</h3>
+                <ul>
+                  <li><span class="legend-item gray">⬤</span> Nog niet begonnen</li>
+                  <li><span class="legend-item blue">⬤</span> Afgelopen</li>
+                  <li><span class="legend-item red">⬤</span> Bezig </li>
+                  <li><span class="legend-item">⬤</span> Veldslag</li>
+                  <li><span class="legend-item">★</span> Luchtaanval</li>
+                  <li><span class="legend-item">⬢</span> Zeeslag</li>
+                </ul>
+                <p>Versleep de tijdlijn om door belangrijke gebeurtenissen van de Tweede Wereldoorlog te navigeren. De marker op de tijdlijn geeft aan welke gebeurtenis op dat moment plaatsvond.</p>
+                <div id="timeline" style="width: 100%; overflow-x: auto;"></div>
+              </div>
+              
+            <h2>WOII Tijdlijn</h2>
+            <p>De tijd tijdens de Tweede Wereldoorlog werd sterk beïnvloed door de voortdurende veranderingen door het conflict, zowel in het dagelijks leven als op sociaal, economisch en technologisch vlak. In veel landen gold er een strikte avondklok en verduisteringsregels om vijandelijke bombardementen te bemoeilijken. Mensen moesten aanpassingen maken zoals voedsel- en brandstofrantsoenering, waardoor de dagelijkse leefstijl en consumptiepatronen ingrijpend veranderden. </p>
+            <p>Door de oorlog werd ook de tijdbeleving anders: lange periodes van onzekerheid, angst en spanning wisselden af met momenten van hoop en opluchting. In bezette gebieden zoals Nederland konden mensen minder vrij bewegen en waren communicatie en reizen vaak beperkt. Bovendien leidde de oorlog tot snelle technologische innovaties, bijvoorbeeld in luchtvaart en communicatie, die de oorlogsvoering én het dagelijks leven blijvend veranderden.</p>
+        </section>
+        <section id="bunker">
+            <h2>De Bunkers</h2>
+            <p>Tijdens de Tweede Wereldoorlog werden bunkers veelvuldig gebruikt als beschermingsconstructies tegen bombardementen en militaire aanvallen. Deze versterkte betonnen structuren boden bescherming aan soldaten en burgers en werden gebouwd door zowel de As- als de Geallieerde mogendheden. Ze hadden verschillende functies, van commandocentra en opslagplaatsen voor wapens en voorraden tot schuilplaatsen voor troepen en burgers.</p>
+            <p>Bunkers waren strategisch belangrijk omdat ze vaak op cruciale plekken werden gebouwd, zoals kustlijnen (bijvoorbeeld de Atlantikwall langs de Europese kust) en grensgebieden. Hierdoor konden legers aanvallen afslaan en de kust verdedigen tegen invasies. De solide bouw en strategische ligging maakten bunkers tot onmisbare elementen in de oorlogsverdediging, en hun overblijfselen herinneren ons nog steeds aan het belang van militaire strategie en verdediging tijdens WOII.</p>
+            <p>Hieronder vind je een model van een bunker gebruik de pijltjestoetsen om te navigeren binnen deze bunker.</p>
+            <canvas id="canvas-bunker"></canvas> 
+        </section>
+        <section id="mes">
+            <h2>Het mes</h2>
+            <p>Adolf Hitler had een persoonlijk ceremonieel mes dat hij vaak ontving als symbool van loyaliteit en macht. Een bekend exemplaar is de Ehrendolch (ere-dolk), die hij soms uitreikte aan trouwe leden van de SS en SA, de paramilitaire organisaties van Nazi-Duitsland. Deze dolken waren vaak versierd met nazi-symbolen en inscripties, zoals de adelaar met het hakenkruis en de slogan "Alles für Deutschland" (Alles voor Duitsland). Het mes was niet bedoeld voor gevechten, maar als ere-symbool dat trouw aan Hitler en zijn ideologie benadrukte.</p>
+            <p>Na de oorlog zijn sommige van deze dolken bewaard gebleven als historische voorwerpen, hoewel ze om hun verband met nazi-symboliek controversieel blijven. Ze worden voornamelijk bewaard in musea en privécollecties vanwege hun historische betekenis.</p>
+            <p>Hieronder vind je een exemplaar van een mes van Adolf Hitler gebruik je muis om het object rond te draaien en eens goed te bekijken</p>
+            <canvas id="knife-hitler"></canvas> 
+        </section>
+        <section id="loopgraaf">
+            <h2>De loopgraaf</h2>
+            <p>In de Tweede Wereldoorlog waren loopgraven minder bepalend dan in de Eerste Wereldoorlog, maar ze werden nog steeds strategisch ingezet, vooral in gebieden waar frontlinies langdurig vastlagen. Loopgraven boden bescherming aan soldaten tegen vijandelijk vuur en bombardementen, vooral tijdens veldslagen in Europa en de Sovjet-Unie. Soldaten gebruikten ze om veilig te bewegen langs het front, te rusten en soms om een sterke defensieve positie te behouden.</p>
+            <p>Hoewel de gevechtstechnieken in WOII mobieler en sneller waren door het gebruik van tanks en luchtmacht, bleven loopgraven essentieel om soldaten een veilige plaats te bieden in de vuurlinie en om strategische posities te verdedigen.</p>
+            <canvas id="canvas-trench"></canvas> 
+            <p>De leefomstandigheden in de loopgraven tijdens de Tweede Wereldoorlog waren zwaar en vaak onhygiënisch. Soldaten moesten dagen tot weken doorbrengen in nauwe, modderige en soms ondergelopen geulen. Regen en sneeuw zorgden ervoor dat loopgraven veranderden in modderpoelen, waarin soldaten regelmatig te maken kregen met natte voeten en "loopgraafvoeten" (trench foot), een pijnlijke infectie door langdurige blootstelling aan vocht en kou.</p>
+            <p>Naast de fysieke ongemakken moesten soldaten constant op hun hoede zijn voor vijandelijke aanvallen, wat leidde tot hoge stressniveaus. Ook waren er problemen met ratten, luizen en een gebrek aan schoon water en voedsel. Door de onhygiënische omstandigheden en dicht op elkaar leven konden ziekten zich snel verspreiden. De constante dreiging, gecombineerd met het gebrek aan comfort en hygiëne, maakte het leven in de loopgraven een uitputtende en psychisch zware ervaring voor veel soldaten.</p>
+        </section>
+        <section id="info">
+            <h2>Over het belang van WOII</h2>
+            <p>De Tweede Wereldoorlog (1939-1945) was een van de meest ingrijpende conflicten in de geschiedenis, en het belang ervan reikt verder dan de gebeurtenissen op het slagveld. De oorlog veranderde niet alleen de machtsverhoudingen wereldwijd, maar had ook een blijvende impact op de politiek, economie, technologie en mensenrechten, die nog steeds voelbaar zijn.</p>
+        </section>
+        <section>
+            <h2>De opkomst van de Verenigde Staten en de Sovjet-Unie als supermachten</h2>
+            <p>Na het einde van de Tweede Wereldoorlog bleven de Verenigde Staten en de Sovjet-Unie als de twee dominante wereldmachten over, wat leidde tot de Koude Oorlog. Terwijl Europa herstellende was van de verwoestingen, namen de VS en de Sovjet-Unie het voortouw in de wereldpolitiek, met grote gevolgen voor de decennia daarna. Deze nieuwe machtsverhoudingen brachten een periode van ideologische strijd tussen het kapitalistische Westen en het communistische Oosten, die de wereldorde voor lange tijd zou bepalen.</p>
+        </section>
+        <section>
+            <h2>De oprichting van de Verenigde Naties</h2>
+            <img src="img/vn.jpg" alt="Verenigde Naties" class="align-right">
+            <p>Een van de meest blijvende nalatenschappen van de oorlog was de oprichting van de Verenigde Naties in 1945. Deze organisatie werd opgericht om internationale conflicten vreedzaam op te lossen en nieuwe wereldoorlogen te voorkomen. Waar de Volkerenbond na de Eerste Wereldoorlog faalde, slaagde de VN erin om een platform te creëren voor diplomatie en samenwerking, met als doel wereldwijde vrede en veiligheid te bevorderen. Dit leidde ook tot de Universele Verklaring van de Rechten van de Mens, een mijlpaal in het bevorderen van mensenrechten wereldwijd.</p>
+        </section>
+        <section>
+            <h2>De val van koloniale rijken</h2>
+            <p>De oorlog leidde tot de verzwakking van Europese koloniale machten, zoals het Verenigd Koninkrijk, Frankrijk en Nederland, die te maken kregen met enorme kosten en verliezen. Na de oorlog begon een periode van dekolonisatie, waarin veel voormalige koloniën in Afrika, Azië en het Midden-Oosten onafhankelijk werden. Dit proces was soms vreedzaam, maar leidde ook tot conflicten en revoluties, waardoor nieuwe staten ontstonden en de wereldkaart ingrijpend veranderde.</p>
+        </section>
+        <section>
+            <h2>Innovaties en technologische vooruitgang</h2>
+            <p>De Tweede Wereldoorlog gaf een enorme impuls aan technologische vooruitgang. Onder andere de ontwikkeling van radar, vliegtuigen, raketten en de eerste computers werd versneld door de oorlog. Vooral de atoombom, die de VS in 1945 op Hiroshima en Nagasaki wierp, veranderde het geopolitieke landschap fundamenteel. Dit wapen markeerde het begin van het nucleaire tijdperk en leidde tot een nucleaire wapenwedloop tijdens de Koude Oorlog.</p>
+        </section>
+        <section>
+            <h2>De Holocaust en de gevolgen voor mensenrechten</h2>
+            <img src="img/holocaust.jpg" alt="auschwitz" class="align-left">
+            <p>Een van de meest tragische en invloedrijke gebeurtenissen van de Tweede Wereldoorlog was de Holocaust, waarbij ongeveer zes miljoen Joden en miljoenen andere minderheden systematisch werden vermoord door het nazi-regime. Deze genocide liet een diepe wond achter en vormde een krachtige herinnering aan de verschrikkingen van intolerantie en extremisme. Na de oorlog werden de Neurenbergse Processen georganiseerd om nazi-oorlogsmisdadigers te berechten, wat leidde tot de ontwikkeling van het internationale strafrecht en een verhoogd bewustzijn over mensenrechten en ethiek in oorlogsvoering.</p>
+        </section>
+        <section>
+            <h2>Economische herstructurering en groei</h2>
+            <p>Na de oorlog kwamen veel landen, vooral in Europa, voor de uitdaging te staan hun verwoeste economieën te herstellen. Het Marshallplan, een hulpprogramma van de Verenigde Staten, speelde een cruciale rol in de wederopbouw van Europa. Dankzij deze economische steun konden Europese landen hun infrastructuur herstellen en een periode van economische groei inluiden, wat leidde tot betere levensomstandigheden en de opkomst van de moderne welvaartsstaat in West-Europa.</p>
+        </section>
+        <section>
+            <h2>Veranderingen in sociale structuren en rollen</h2>
+            <p>De Tweede Wereldoorlog bracht ook sociale veranderingen met zich mee. Tijdens de oorlog namen veel vrouwen banen over van mannen die aan het front vochten, waardoor hun rol in de maatschappij veranderde. Dit leidde tot een verschuiving in genderrollen en droeg bij aan de opkomst van de vrouwenbeweging na de oorlog. Daarnaast stimuleerde de oorlog een gevoel van solidariteit tussen mensen van verschillende achtergronden en klassen, wat bijdroeg aan een veranderend sociaal bewustzijn.</p>
+        </section>
+        <section>
+            <h2>Conclusie</h2>
+            <p>Het belang van de Tweede Wereldoorlog ligt in de blijvende veranderingen die het conflict teweegbracht op politiek, economisch, sociaal en technologisch vlak. De oorlog vormde de moderne wereld zoals wij die kennen en leidde tot belangrijke initiatieven voor vrede en mensenrechten. De lessen en herinneringen aan de Tweede Wereldoorlog dienen als waarschuwing voor de gevaren van extremisme, intolerantie en oorlog, en herinneren ons eraan hoe belangrijk het is om te streven naar een rechtvaardige en vreedzame samenleving.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Gemaakt door Luka De Vreese, Odissee - De Co-hogeschool, Vak: Webtopics</p>
+    </footer>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
