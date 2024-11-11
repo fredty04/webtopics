@@ -58,4 +58,4 @@ De applicatie is nu bereikbaar via loacalhost.
 
 ## Licentie
 
-Dit project is gelicentieerd onder de MIT License - zie het [LICENSE bestand](LICENSE) voor meer informatie.
+Dit project is gelicentieerd onder de MIT License - zie het [LICENSE bestand](LICENSE.txt) voor meer informatie.
