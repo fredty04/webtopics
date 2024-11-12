@@ -107,107 +107,115 @@ export function updateMap(selectedDate) {
     const url = `https://query.wikidata.org/sparql?query=${encodedQuery}&format=json`;
 
     fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const battles = data.results.bindings;
+    .then(response => response.json())
+    .then(data => {
+        const battles = data.results.bindings;
 
-            console.log(`Total battles found: ${battles.length}`);
-            console.log(`Selected Date: ${selectedDate}`);
+        battles.forEach(battle => {
+            const battleStartDate = new Date(battle.formattedStartDate.value);
+            const battleEndDate = new Date(battle.formattedEndDate.value);
 
-            battles.forEach(battle => {
-                const battleStartDate = new Date(battle.formattedStartDate.value);
-                const battleEndDate = new Date(battle.formattedEndDate.value);
+            let status;
+            if (selectedDate < battleStartDate) {
+                status = 'not-started';
+            } else if (selectedDate >= battleStartDate && selectedDate <= battleEndDate) {
+                status = 'ongoing';
+            } else {
+                status = 'ended';
+            }
 
-                let status;
-                if (selectedDate < battleStartDate) {
-                    status = 'not-started';
-                } else if (selectedDate >= battleStartDate && selectedDate <= battleEndDate) {
-                    status = 'ongoing';
-                } else {
-                    status = 'ended';
-                }
+            const coords = battle.coord.value.replace('Point(', '').replace(')', '').split(' ');
+            const longitude = parseFloat(coords[0]);
+            const latitude = parseFloat(coords[1]);
 
-                const coords = battle.coord.value.replace('Point(', '').replace(')', '').split(' ');
-                const longitude = parseFloat(coords[0]);
-                const latitude = parseFloat(coords[1]);
+            if (!isNaN(longitude) && !isNaN(latitude)) {
+                const feature = new Feature({
+                    geometry: new Point(fromLonLat([longitude, latitude])),
+                    name: battle.battleLabel.value,
+                    description: battle.description ? battle.description.value : "No description available",
+                    startDate: battle.formattedStartDate.value,
+                    endDate: battle.formattedEndDate.value,
+                    status: status,
+                    typeLabel: battle.typeLabel ? battle.typeLabel.value : null
+                });
 
-                if (!isNaN(longitude) && !isNaN(latitude)) {
-                    const feature = new Feature({
-                        geometry: new Point(fromLonLat([longitude, latitude])),
-                        name: battle.battleLabel.value,
-                        description: battle.description ? battle.description.value : "No description available",
-                        startDate: battle.formattedStartDate.value,
-                        endDate: battle.formattedEndDate.value,
-                        status: status,
-                        typeLabel: battle.typeLabel ? battle.typeLabel.value : null
+                vectorSource.addFeature(feature);
+
+                // Voeg een animatie toe aan de feature als deze 'ongoing' is
+                if (status === 'ongoing') {
+                    const featureElement = document.querySelector(`[title="${feature.get('name')}"]`);
+                    gsap.to(featureElement, {
+                        scale: 1.5,
+                        duration: 0.5,
+                        yoyo: true,
+                        repeat: -1,
+                        ease: "power1.inOut"
                     });
-                    vectorSource.addFeature(feature);
-                } else {
-                    console.warn(`Invalid coordinates for battle: ${battle.battleLabel.value}`);
                 }
-            });
+            } else {
+                console.warn(`Invalid coordinates for battle: ${battle.battleLabel.value}`);
+            }
+        });
 
-            vectorLayer.setStyle(function(feature) {
-                const status = feature.get('status');
-                const typeLabel = feature.get('typeLabel');
-                const battleType = getBattleType(typeLabel);
-                
-                let color;
-                switch(status) {
-                    case 'not-started': color = COLORS.notStarted; break;
-                    case 'ongoing': color = COLORS.ongoing; break;
-                    case 'ended': color = COLORS.ended; break;
-                }
+        vectorLayer.setStyle(function(feature) {
+            const status = feature.get('status');
+            const typeLabel = feature.get('typeLabel');
+            const battleType = getBattleType(typeLabel);
+            
+            let color;
+            switch(status) {
+                case 'not-started': color = COLORS.notStarted; break;
+                case 'ongoing': color = COLORS.ongoing; break;
+                case 'ended': color = COLORS.ended; break;
+            }
 
-                let shapeStyle;
-                switch(battleType) {
-                    case 'battle':
-                        shapeStyle = new CircleStyle({
-                            radius: 6,
-                            fill: new Fill({color}),
-                            stroke: new Stroke({color: 'white', width: 2})
-                        });
-                        break;
-                    case 'siege':
-                        shapeStyle = new RegularShape({
-                            points: 3,
-                            radius: 8,
-                            fill: new Fill({color}),
-                            stroke: new Stroke({color: 'white', width: 2}),
-                            rotation: Math.PI / 4
-                        });
-                        break;
-                    case 'air battle':
-                        shapeStyle = new RegularShape({
-                            points: 5,
-                            radius: 8,
-                            radius2: 4,
-                            fill: new Fill({color}),
-                            stroke: new Stroke({color: 'white', width: 2})
-                        });
-                        break;
-                    case 'naval battle':
-                        shapeStyle = new RegularShape({
-                            points: 6,
-                            radius: 8,
-                            fill: new Fill({color}),
-                            stroke:new Stroke({color:'white',width :2})
-                        });
-                        break;
-                    default:
-                        shapeStyle = new RegularShape({
-                            points : 4, 
-                            radius : 6,
-                            angle : Math.PI / 4, 
-                            fill : new Fill({color}),
-                            stroke:new Stroke({color:'white',width :2})
-                        });
-                }
-                
-                return new Style({image : shapeStyle});
-            });
-
-            console.log(`Features added to map: ${vectorSource.getFeatures().length}`);
-        })
-        .catch(error => console.error('Error loading battles data from Wikidata:', error));
+            let shapeStyle;
+            switch(battleType) {
+                case 'battle':
+                    shapeStyle = new CircleStyle({
+                        radius: 6,
+                        fill: new Fill({color}),
+                        stroke: new Stroke({color: 'white', width: 2})
+                    });
+                    break;
+                case 'siege':
+                    shapeStyle = new RegularShape({
+                        points: 3,
+                        radius: 8,
+                        fill: new Fill({color}),
+                        stroke: new Stroke({color: 'white', width: 2}),
+                        rotation: Math.PI / 4
+                    });
+                    break;
+                case 'air battle':
+                    shapeStyle = new RegularShape({
+                        points: 5,
+                        radius: 8,
+                        radius2: 4,
+                        fill: new Fill({color}),
+                        stroke: new Stroke({color: 'white', width: 2})
+                    });
+                    break;
+                case 'naval battle':
+                    shapeStyle = new RegularShape({
+                        points: 6,
+                        radius: 8,
+                        fill: new Fill({color}),
+                        stroke:new Stroke({color:'white',width :2})
+                    });
+                    break;
+                default:
+                    shapeStyle = new RegularShape({
+                        points : 4, 
+                        radius : 6,
+                        angle : Math.PI / 4, 
+                        fill : new Fill({color}),
+                        stroke:new Stroke({color:'white',width :2})
+                    });
+            }
+            
+            return new Style({image : shapeStyle});
+        });
+    })
+    .catch(error => console.error('Error loading battles data from Wikidata:', error));
 }

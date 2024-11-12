@@ -11,6 +11,31 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "EducationalOccupationalProgram",
+          "name": "Interactieve en leerzame WOII-website",
+          "description": "Een interactieve, leerzame website die de geografische evolutie van de Tweede Wereldoorlog weergeeft.",
+          "url": "https://wt.lukadevreese.ikdoeict.be/",
+          "educationalCredentialAwarded": "WOII Geografische Educatie",
+          "hasCourse": {
+            "@type": "Course",
+            "name": "WOII Geografie en Strijd",
+            "description": "Deze cursus biedt een interactieve ervaring van de Tweede Wereldoorlog met een verschuifbare tijdlijn die de voortgang van de oorlogsjaren laat zien en een 3D-recreatie van objecten uit de oorlog."
+          },
+          "provider": {
+            "@type": "Organization",
+            "name": "Webtopisct project",
+            "sameAs": "https://wt.lukadevreese.ikdoeict.be/"
+          },
+          "teaches": ["Geografie", "Wereldoorlog II", "Geallieerden", "Duitsers", "Educatie"],
+          "educationalUse": "Leerzaam",
+          "learningResourceType": ["Interactieve kaart", "Tijdlijn", "Loopgraafrecreatie"],
+          "keywords": ["WOII", "Geografie", "D3.js", "Three.js", "CSS Houdini", "GSAP", "LottieFiles"],
+        }
+        </script>
+        
 </head>
 <body>
     <header class="header" id="header">
@@ -83,7 +108,7 @@
         </section>
         <section>
             <h2>De oprichting van de Verenigde Naties</h2>
-            <img src="img/vn.jpg" alt="Verenigde Naties" class="align-right">
+            <img src="img/vn.jpg" loading="lazy" alt="Verenigde Naties" class="align-right">
             <p>Een van de meest blijvende nalatenschappen van de oorlog was de oprichting van de Verenigde Naties in 1945. Deze organisatie werd opgericht om internationale conflicten vreedzaam op te lossen en nieuwe wereldoorlogen te voorkomen. Waar de Volkerenbond na de Eerste Wereldoorlog faalde, slaagde de VN erin om een platform te creëren voor diplomatie en samenwerking, met als doel wereldwijde vrede en veiligheid te bevorderen. Dit leidde ook tot de Universele Verklaring van de Rechten van de Mens, een mijlpaal in het bevorderen van mensenrechten wereldwijd.</p>
         </section>
         <section>
@@ -96,7 +121,7 @@
         </section>
         <section>
             <h2>De Holocaust en de gevolgen voor mensenrechten</h2>
-            <img src="img/holocaust.jpg" alt="auschwitz" class="align-left">
+            <img src="img/holocaust.jpg" loading="lazy" alt="auschwitz" class="align-left">
             <p>Een van de meest tragische en invloedrijke gebeurtenissen van de Tweede Wereldoorlog was de Holocaust, waarbij ongeveer zes miljoen Joden en miljoenen andere minderheden systematisch werden vermoord door het nazi-regime. Deze genocide liet een diepe wond achter en vormde een krachtige herinnering aan de verschrikkingen van intolerantie en extremisme. Na de oorlog werden de Neurenbergse Processen georganiseerd om nazi-oorlogsmisdadigers te berechten, wat leidde tot de ontwikkeling van het internationale strafrecht en een verhoogd bewustzijn over mensenrechten en ethiek in oorlogsvoering.</p>
         </section>
         <section>
@@ -117,6 +142,6 @@
         <p>Gemaakt door Luka De Vreese, Odissee - De Co-hogeschool, Vak: Webtopics</p>
     </footer>
 
-    <script type="module" src="main.js"></script>
+    <script type="module" loading="lazy" src="main.js"></script>
 </body>
 </html>
