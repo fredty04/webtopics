@@ -14,7 +14,7 @@
     "@webcomponents/webcomponentsjs": "^2.8.0",
     "d3": "^7.9.0",
     "gsap": "^3.12.5",
-    "ol": "^10.2.1",
+    "ol": "^10.4.0",
     "three": "^0.169.0"
   },
   "devDependencies": {
